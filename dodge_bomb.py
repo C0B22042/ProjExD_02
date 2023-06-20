@@ -63,11 +63,12 @@ def main():
                 if event.key in kk_move_key:
                     for i in range(2):
                         kk_move[i] -= kk_move_key[event.key][i]
-        
-        if kk_rec.colliderect(bom_rect):
-            tmr2 = -50
-        
+
         b_i = min(tmr//500, 9)
+        bom_rect[2:] = bom_surs[b_i].get_rect()[2:]
+
+        if kk_rec.colliderect(bom_rect) and tmr2>0:
+            tmr2 = -50
 
         kk_move_lim = [0, 0]
         for i in range(len(win_size)):
@@ -88,6 +89,9 @@ def main():
             kk_rec.move_ip(kk_move_lim)
         else:
             screen.blit(kk_gameover_img, kk_rec)
+
+        for i in range(2):
+            bom_moveIp[i] = bom_rect[i]-kk_rec[i]
 
         for i in range(2):
             bom_moveIp2[i] = bom_moveIp[i] * (b_i+1)
