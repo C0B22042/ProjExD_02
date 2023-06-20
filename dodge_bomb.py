@@ -28,12 +28,18 @@ def main():
         [[0, -5], [0, 5], [-5, 0], [5, 0]]
     ))
     kk_move = [0, 0]
-    bom_sur = pg.Surface((20,20))
-    bom_sur.set_colorkey((0, 0, 0))
-    pg.draw.circle(bom_sur, (255, 0, 0), (10, 10), 10)
-    bom_rect = bom_sur.get_rect()
+    
+    bom_surs = list()
+    for i in range(1, 11):
+        bom = pg.Surface((20*i,20*i))
+        bom.set_colorkey((0, 0, 0))
+        pg.draw.circle(bom, (255, 0, 0), (10*i, 10*i), 10*i)
+        bom_surs.append(bom)
+    bom_rect = bom_surs[0].get_rect()
     bom_rect.center = [random.randint(10,i-10) for i in win_size]
     bom_moveIp = [5, 5]
+    bom_moveIp2 = [0, 0]
+
     clock = pg.time.Clock()
     tmr = 0
     while True:
@@ -54,15 +60,20 @@ def main():
                 if event.key in kk_move_key:
                     for i in range(2):
                         kk_move[i] -= kk_move_key[event.key][i]
+        
         if kk_rec.colliderect(bom_rect):
             print("game over")
             return
+        
+        b_i = min(tmr//500, 9)
 
         kk_move_lim = [0, 0]
         for i in range(len(win_size)):
             if not check_win(kk_rec[i], win_size[i], kk_rec[i+2], kk_move[i]):
                 kk_move_lim[i] = kk_move[i]
-            if check_win(bom_rect[i], win_size[i], bom_rect[i+2], 0):
+
+            bom_s = bom_surs[b_i].get_rect()
+            if check_win(bom_rect[i], win_size[i], bom_s[i+2], 0):
                 bom_moveIp[i] *= -1
 
         screen.blit(bg_img, [0, 0])
@@ -70,12 +81,13 @@ def main():
         if tuple(kk_move_lim) in kk_ang_dict:
             kk_img = kk_ang_dict[tuple(kk_move_lim)]
 
-        print(tuple(kk_move_lim))
         kk_rec.move_ip(kk_move_lim)
         screen.blit(kk_img, kk_rec)
-        
-        bom_rect.move_ip(bom_moveIp)
-        screen.blit(bom_sur, bom_rect)
+
+        for i in range(2):
+            bom_moveIp2[i] = bom_moveIp[i] * (b_i+1)
+        bom_rect.move_ip(bom_moveIp2)
+        screen.blit(bom_surs[b_i], bom_rect)
 
         pg.display.update()
         tmr += 1
