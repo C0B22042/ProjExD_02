@@ -14,9 +14,9 @@ def main():
     kk_img = pg.image.load("ex02/fig/3.png")
     kk_load_img = pg.transform.rotozoom(kk_img, 0, 2.0)
     kk_ang_dict = dict()
-    kk_ang_key_lis = [[-5, 5], [-5, 0], [-5, -5], [0, -5], [5, -5], [5, 0], [5, 5], [0, 5]]
+    kk_ang_key_lis = [[0, 5], [-5, 5], [-5, 0], [-5, -5], [0, -5], [5, -5], [5, 0], [5, 5]]
     for i in range(4):
-        kk_ang_dict[tuple(kk_ang_key_lis[i])] = pg.transform.rotozoom(kk_load_img, -i*45+45, 1)
+        kk_ang_dict[tuple(kk_ang_key_lis[i])] = pg.transform.rotozoom(kk_load_img, -i*45+90, 1)
     for i in range(4):
         kk_ang_dict[tuple(kk_ang_key_lis[i+4])] = pg.transform.rotozoom(
             pg.transform.flip(kk_load_img, False, True), -(i+4)*45+45, 1)
