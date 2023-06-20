@@ -28,6 +28,8 @@ def main():
         [[0, -5], [0, 5], [-5, 0], [5, 0]]
     ))
     kk_move = [0, 0]
+
+    kk_gameover_img = pg.transform.rotozoom(pg.image.load("ex02/fig/9.png"), 0, 2.0)
     
     bom_surs = list()
     for i in range(1, 11):
@@ -42,6 +44,7 @@ def main():
 
     clock = pg.time.Clock()
     tmr = 0
+    tmr2 = 1
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: 
@@ -62,8 +65,7 @@ def main():
                         kk_move[i] -= kk_move_key[event.key][i]
         
         if kk_rec.colliderect(bom_rect):
-            print("game over")
-            return
+            tmr2 = -50
         
         b_i = min(tmr//500, 9)
 
@@ -81,8 +83,11 @@ def main():
         if tuple(kk_move_lim) in kk_ang_dict:
             kk_img = kk_ang_dict[tuple(kk_move_lim)]
 
-        kk_rec.move_ip(kk_move_lim)
-        screen.blit(kk_img, kk_rec)
+        if tmr2 > 0:
+            screen.blit(kk_img, kk_rec)
+            kk_rec.move_ip(kk_move_lim)
+        else:
+            screen.blit(kk_gameover_img, kk_rec)
 
         for i in range(2):
             bom_moveIp2[i] = bom_moveIp[i] * (b_i+1)
@@ -90,13 +95,17 @@ def main():
         screen.blit(bom_surs[b_i], bom_rect)
 
         pg.display.update()
+
+        if tmr2 == 0:
+            return
+
+        tmr2 += 1
         tmr += 1
         clock.tick(50)
 
 def check_win(rec, win_size, sur_size, sur_move):
     if rec+sur_move < 0 or rec+sur_move > win_size-sur_size:
         return True
-            
 
 
 if __name__ == "__main__":
