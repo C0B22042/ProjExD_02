@@ -29,7 +29,7 @@ def main():
     ))
     kk_move = [0, 0]
 
-    kk_gameover_img = pg.transform.rotozoom(pg.image.load("ex02/fig/9.png"), 0, 2.0)
+    kk_gameover_img = pg.transform.rotozoom(pg.image.load("ex02/fig/8.png"), 0, 2.0)
     
     bom_surs = list()
     for i in range(1, 11):
@@ -90,8 +90,8 @@ def main():
         else:
             screen.blit(kk_gameover_img, kk_rec)
 
-        for i in range(2):
-            bom_moveIp[i] = bom_rect[i]-kk_rec[i]
+        #for i in range(2):
+        #    bom_moveIp[i] = bom_rect[i]-kk_rec[i]
 
         for i in range(2):
             bom_moveIp2[i] = bom_moveIp[i] * (b_i+1)
